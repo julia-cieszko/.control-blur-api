@@ -12,15 +12,19 @@ def hello_world():  # put application's code here
 
 @app.route('/api/blur', methods = ["POST"])
 def analyze():
-    image = request.files["image"] #odczytywanie obrazka z requesta
-    img = Image.open(image)
-    print(img.size)
-    img = img.convert("L") #grayscale
-    laplacian = cv2.Laplacian(np.asarray(img), cv2.CV_64F, ksize=3)
+    content_type = request.headers.get("Content-Type")
+    print(content_type)
+    data = request.json
+    print(data.get("image"))
+    # image = request.files["image"] #odczytywanie obrazka z requesta
+    # img = Image.open(image)
+    # print(img.size)
+    # img = img.convert("L") #grayscale
+    # laplacian = cv2.Laplacian(np.asarray(img), cv2.CV_64F, ksize=3)
     # Convert back to uint8 and normalize values to 0-255 range
     # laplacian = np.uint8(np.absolute(laplacian))
     # laplacian = cv2.normalize(laplacian, None, 0, 255, cv2.NORM_MINMAX)
-    return str(np.amax(laplacian))
+    # return str(np.amax(laplacian))
 
 if __name__ == '__main__':
     app.run()
