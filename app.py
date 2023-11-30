@@ -2,9 +2,10 @@ import base64
 from io import BytesIO
 
 from PIL import Image
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import cv2
 import numpy as np
+
 
 app = Flask(__name__)
 
@@ -26,7 +27,7 @@ def analyze():
     # Convert back to uint8 and normalize values to 0-255 range
     # laplacian = np.uint8(np.absolute(laplacian))
     # laplacian = cv2.normalize(laplacian, None, 0, 255, cv2.NORM_MINMAX)
-    return str(np.amax(laplacian))
+    return jsonify({"score": str(np.amax(laplacian))})
 
 if __name__ == '__main__':
     app.run()
